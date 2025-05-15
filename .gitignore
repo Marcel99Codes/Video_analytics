@@ -1,5 +1,21 @@
-/data/*
-!/data/.gitkeep
+# Ignore the following files and directories
+exercise1/data/*
+!exercise1/data/.gitkeep
 
-/output/*
-!/output/.gitkeep
+exercise1/output/*
+!exercise1/output/.gitkeep
+
+# Ignore all .avi files
+*.avi
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore environment and config
+.env
+.vscode/
+
+# Ignore large files
+*.zip
+*.mp4

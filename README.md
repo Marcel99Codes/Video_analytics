@@ -1,1 +1,2 @@
-# Video_analytics
+# Video_analytics - Exercise 1:
+
