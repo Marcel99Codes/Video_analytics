@@ -19,3 +19,9 @@ __pycache__/
 # Ignore large files
 *.zip
 *.mp4
+
+# Ignore any folder named 'runs' anywhere
+**/runs/
+
+# Ignore any .pth files anywhere
+**/*.pth
