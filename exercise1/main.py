@@ -60,86 +60,21 @@ def feature_extraction_pipeline(video_path, output_ptah):
 
 
 if __name__ == "__main__":
-    feature_extraction_pipeline(VIDEO_PATH, OUTPUT_PATH)
-
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--runPipeline", type=bool, choices=range(5))
-    parser.add_argument("--trainSVM", type=bool, choices=range(5))
-    parser.add_argument("--testDummy", type=bool, choices=range(5))
+    parser.add_argument("--state", type=int, choices=range(5), help="0=pipeline, 1=trainSvm, 2=testDummy")
 
     args = parser.parse_args()
-    run = args.runPipeline
+    state = args.state
         
     #Feature extraction pipeline
-    if args.runPipeline:
+    if state == 0:
         feature_extraction_pipeline(VIDEO_PATH, OUTPUT_PATH)
-        # count = 0
-        # for f in get_video_files(VIDEO_PATH + "/TrampolineJumping"):
-        #     count += 1
-        #     if count > 2:
-        #         break
-        #     video_file = os.path.join(VIDEO_PATH, "TrampolineJumping", f)
-        #     print(video_file)
-
-        #     trajectory_file = OUTPUT_PATH + "/TrampolineJumping/" + f + "_trajectories.npy"
-        #     print(trajectory_file)
-
-        #     output_file = OUTPUT_PATH + "/TrampolineJumping/" + f + "_426d_descriptors.npy"
-        #     print(output_file)
-
-        #     task1.main(video_file, trajectory_file)
-        #     task2.main(video_file, trajectory_file, output_file)
-        
-        # task3_1.main(OUTPUT_PATH + "/TrampolineJumping")
-        # task3_2.main(OUTPUT_PATH + "/TrampolineJumping")
-
-        # count = 0
-        # for f in get_video_files(VIDEO_PATH + "/UnevenBars"):
-        #     count += 1
-        #     if count > 2:
-        #         break
-        #     video_file = os.path.join(VIDEO_PATH, "UnevenBars", f)
-        #     print(video_file)
-
-        #     trajectory_file = OUTPUT_PATH + "/UnevenBars/" + f + "_trajectories.npy"
-        #     print(trajectory_file)
-
-        #     output_file = OUTPUT_PATH + "/UnevenBars/" + f + "_426d_descriptors.npy"
-        #     print(output_file)
-
-        #     task1.main(video_file, trajectory_file)
-        #     task2.main(video_file, trajectory_file, output_file)
-        
-        # task3_1.main(OUTPUT_PATH + "/UnevenBars")
-        # task3_2.main(OUTPUT_PATH + "/UnevenBars")
-
-        # count = 0     
-        # for f in get_video_files(VIDEO_PATH + "/VolleyballSpiking"):
-        #     count += 1
-        #     if count > 2:
-        #         break
-        #     video_file = os.path.join(VIDEO_PATH, "VolleyballSpiking", f)
-        #     print(video_file)
-
-        #     trajectory_file = OUTPUT_PATH + "/VolleyballSpiking/" + f + "_trajectories.npy"
-        #     print(trajectory_file)
-
-        #     output_file = OUTPUT_PATH + "/VolleyballSpiking/" + f + "_426d_descriptors.npy"
-        #     print(output_file)
-
-        #     task1.main(video_file, trajectory_file)
-        #     task2.main(video_file, trajectory_file, output_file)
-        
-        # task3_1.main(OUTPUT_PATH + "/VolleyballSpiking")
-        # task3_2.main(OUTPUT_PATH + "/VolleyballSpiking")
-
     #Train the SVM
-    if args.trainSVM:
+    elif state == 1:
         task4.main(OUTPUT_PATH, VIDEO_PATH)
 
     #Test on dummy data
-    if args.testDummy: 
+    if state == 2: 
         video_file = VIDEO_PATH + "/dummy.avi"
         trajectory_file = OUTPUT_PATH + "/dummy_trajectories.npy"
         output_file = OUTPUT_PATH + "/dummy_426d_descriptors.npy"
