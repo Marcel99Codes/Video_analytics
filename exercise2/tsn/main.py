@@ -21,7 +21,7 @@ os.makedirs(MODEL_PATH, exist_ok=True)
 num_classes = len(open(os.path.join(DATA_PATH, 'classes.txt')).readlines())
 num_segments = 4
 batch_size = 8
-num_epochs = 3
+num_epochs = 10
 learning_rate = 1e-3
 
 # Device setup
