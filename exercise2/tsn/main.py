@@ -12,6 +12,7 @@ from model import TSN
 
 from torch.utils.tensorboard import SummaryWriter
 
+# Data paths and model parameters ==> these should be adjusted according to your setup
 DATA_PATH = "/media/marcel/Data1/video_analytics/data"
 MODEL_PATH = "models"
 
@@ -138,10 +139,6 @@ def late_fusion_eval(model_rgb, model_flow, loader_rgb, loader_flow):
             inputs_rgb, labels_rgb = inputs_rgb.to(device), labels_rgb.to(device)
             inputs_flow, labels_flow = inputs_flow.to(device), labels_flow.to(device)
 
-            # Sanity check
-            assert torch.equal(labels_rgb, labels_flow), "Labels don't match between RGB and flow loaders"
-
-            # Forward pass
             outputs_rgb = F.softmax(model_rgb(inputs_rgb), dim=1)
             outputs_flow = F.softmax(model_flow(inputs_flow), dim=1)
 

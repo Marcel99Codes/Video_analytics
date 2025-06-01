@@ -47,12 +47,11 @@ class VideoDataset(Dataset):
         return video_label_pairs
 
     def _load_rgb_frames(self, video_path):
-        video_path += ".avi"  # Add extension if you're pointing to folders
+        video_path += ".avi" 
         cap = cv2.VideoCapture(video_path)
         frames = []
         success, frame = cap.read()
         while success:
-            # Convert to PIL Image to apply transform
             img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             frames.append(img)
             success, frame = cap.read()
@@ -82,19 +81,16 @@ class VideoDataset(Dataset):
 
         seg_len = total_frames // self.num_segments
         if seg_len == 0:
-            # If video is too short, just repeat last frame indices
             indices = [min(i, total_frames - 1) for i in range(self.num_segments)]
         else:
             indices = []
             for i in range(self.num_segments):
                 start_idx = i * seg_len
                 end_idx = (i + 1) * seg_len - 1
-                # Clamp end_idx to last frame index to avoid index error
                 end_idx = min(end_idx, total_frames - 1)
                 if self.mode == 'train':
                     rand_idx = random.randint(start_idx, end_idx)
                 else:
-                    # take middle frame in segment for val/test
                     rand_idx = start_idx + (end_idx - start_idx) // 2
                 indices.append(rand_idx)
 
