@@ -150,6 +150,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--pretrain", action="store_true", help="Run self-supervised pretraining")
     parser.add_argument("--finetune", action="store_true", help="Run supervised finetune")
+    parser.add_argument("--dataset_samples", type=int, default=300)
 
     parser.add_argument("--loss", choices=["ntxent", "triplet", "infonce"], default="ntxent")
     parser.add_argument("--batch_size", type=int, default=8)
@@ -169,10 +170,10 @@ if __name__ == "__main__":
     elif args.pretrain:
         print("Start pretrain")
         dataset_full = get_dataset(mode="pretrain", path=args.root_data_path)
-        subset_size = 150
+        subset_size = args.dataset_samples
         subset_indices = random.sample(range(len(dataset_full)), subset_size)
         dataset = Subset(dataset_full, subset_indices)
-        loader = DataLoader(dataset_full, batch_size=args.batch_size, shuffle=True, num_workers=NUM_WORKER)
+        loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True, num_workers=NUM_WORKER)
 
         model = ResNet3D(BasicBlock3D, [2, 2, 2, 2], num_classes=512, return_features=True).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
@@ -183,13 +184,13 @@ if __name__ == "__main__":
     elif args.finetune:
         print("Start finetuning")
         train_ds = get_dataset(mode="finetune_train", path=args.root_data_path)
-        subset_size = 100
+        subset_size = args.dataset_samples
         subset_indices = random.sample(range(len(train_ds)), subset_size)
         train_dataset = Subset(train_ds, subset_indices)
         train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=NUM_WORKER)
         
         val_ds = get_dataset(mode="finetune_val", path=args.root_data_path)
-        subset_size = 100
+        subset_size = args.dataset_samples
         subset_indices = random.sample(range(len(train_ds)), subset_size)
         val_dataset = Subset(val_ds, subset_indices)
         val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=NUM_WORKER)
