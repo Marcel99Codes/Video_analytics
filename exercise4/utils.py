@@ -65,6 +65,7 @@ class MiniUCFDataset(Dataset):
     def __getitem__(self, idx):
         video_path = self.video_paths[idx]
         label = self.labels[idx]
+        label = min(label, 25 - 1)
 
         # Read video using torchvision: returns (frames, audio, info)
         # video: (T, H, W, C)

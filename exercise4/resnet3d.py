@@ -68,11 +68,3 @@ class ResNet3D(nn.Module):
         if self.return_features:
             return x
         return self.fc(x)
-
-def inflate_weights_2d_to_3d(model3d, model2d):
-    for (name3d, module3d), (_, module2d) in zip(model3d.named_modules(), model2d.named_modules()):
-        if isinstance(module3d, nn.Conv3d) and isinstance(module2d, nn.Conv2d):
-            with torch.no_grad():
-                w2d = module2d.weight.data
-                w3d = w2d.unsqueeze(2).repeat(1, 1, module3d.weight.shape[2], 1, 1) / module3d.weight.shape[2]
-                module3d.weight.copy_(w3d)

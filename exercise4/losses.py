@@ -7,15 +7,11 @@ def cosine_similarity(a, b):
 def nt_xent_loss(z1, z2, temperature=0.5):
     batch_size = z1.size(0)
     z = torch.cat([z1, z2], dim=0)  # 2N x feature_dim
-    z = F.normalize(z, dim=1)       # Normalize
-
+    z = F.normalize(z, dim=1)
     sim = torch.matmul(z, z.T) / temperature  # 2N x 2N similarity matrix
-
-    # Mask to remove similarity with itself
     mask = torch.eye(2 * batch_size, device=z.device).bool()
     sim = sim.masked_fill(mask, -9e15)
 
-    # Create labels: for example, i-th sample matches with i + batch_size
     targets = torch.cat([torch.arange(batch_size, 2*batch_size),
                          torch.arange(0, batch_size)]).to(z.device)
 
